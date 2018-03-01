@@ -5002,7 +5002,7 @@ ls:S:wait:/etc/init.d/rc S
             <fix id="F-38210r1_fix" />
             <!-- <check system="C-42265r1_chk"> -->
 			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
-                <check-content-ref name="oval:gov.disa.suse:def:3" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
+                <check-content-ref name="oval:gov.disa.suse:def:756" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>
@@ -14859,7 +14859,7 @@ If the permissions include a '+', the file has an extended ACL. If the file has 
             <fix id="F-38432r1_fix" />
             <!-- <check system="C-42411r1_chk"> -->
 			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
-                <check-content-ref name="oval:gov.disa.suse:def:1" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
+                <check-content-ref name="oval:gov.disa.suse:def:22347" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>

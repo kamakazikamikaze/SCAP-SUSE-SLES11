@@ -8,7 +8,7 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
-    <definition id="oval:gov.disa.suse:def:3" version="1" class="compliance">
+    <definition id="oval:gov.disa.suse:def:756" version="1" class="compliance">
       <metadata>
         <title>The system must require authentication upon booting into single-user and maintenance modes.</title>
         <affected family="unix">
@@ -17,10 +17,10 @@
         <description>If the system does not require valid root authentication before it boots into single-user or maintenance mode, anyone who invokes single-user or maintenance mode is granted privileged access to all files on the system.</description>
       </metadata>
       <criteria>
-        <criterion comment="/etc/inittab requires root authentication in single-user mode" test_ref="oval:gov.disa.suse:tst:2" />
+        <criterion comment="/etc/inittab requires root authentication in single-user mode" test_ref="oval:gov.disa.suse:tst:756" />
       </criteria>
     </definition>
-    <definition id="oval:gov.disa.suse:def:1" version="1" class="compliance">
+    <definition id="oval:gov.disa.suse:def:22347" version="1" class="compliance">
       <metadata>
         <title>The /etc/passwd file must not contain password hashes.</title>
         <affected family="unix">
@@ -29,46 +29,37 @@
         <description>If password hashes are readable by non-administrators, the passwords are subject to attack through lookup tables or cryptographic weaknesses in the hashes.</description>
       </metadata>
       <criteria>
-        <criterion comment="/etc/passwd does not contain hashes" test_ref="oval:gov.disa.suse:tst:1" />
+        <criterion comment="/etc/passwd does not contain hashes" test_ref="oval:gov.disa.suse:tst:22347" />
       </criteria>
-    </definition>
-    <definition id="oval:gov.disa.suse:def:2" version="1" class="compliance">
-      <metadata>
-        <title>Anonymous FTP accounts must not have a functional shell.</title>
-        <affected family="unix">
-          <platform>SUSE Linux Enterprise Server 11</platform>
-        </affected>
-        <description>If an anonymous FTP account has been configured to use a functional shell, attackers could gain access to the shell if the account is compromised.</description>
-      </metadata>
     </definition>
   </definitions>
   <tests>
-    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:2" version="1" check="all" comment="sulogin should run in single-user mode" check_existence="at_least_one_exists">
-      <object object_ref="oval:gov.disa.suse:obj:2" />
-      <state state_ref="oval:gov.disa.suse:ste:2" />
+    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:756" version="1" check="all" comment="sulogin should run in single-user mode" check_existence="at_least_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:756" />
+      <state state_ref="oval:gov.disa.suse:ste:756" />
     </textfilecontent54_test>
-    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:1" version="1" check="all" comment="/etc/passwd does not contain hashes" check_existence="at_least_one_exists">
-      <object object_ref="oval:gov.disa.suse:obj:1" />
-      <state state_ref="oval:gov.disa.suse:ste:1" />
+    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:22347" version="1" check="all" comment="/etc/passwd does not contain hashes" check_existence="at_least_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:22347" />
+      <state state_ref="oval:gov.disa.suse:ste:22347" />
     </textfilecontent54_test>
   </tests>
   <objects>
-    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:2" version="1" comment="Recovery mode must boot into Single-user mode">
+    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:756" version="1" comment="Recovery mode must boot into Single-user mode">
       <filepath datatype="string">/etc/inittab</filepath>
       <pattern datatype="string" operation="pattern match">^~~:S:[^#\n]+:([^#\n]+)</pattern>
       <instance datatype="int" operation="greater than or equal">1</instance>
     </textfilecontent54_object>
-    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:1" version="1" comment="Check /etc/passwd for hashes">
+    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:22347" version="1" comment="Check /etc/passwd for hashes">
       <filepath datatype="string">/etc/passwd</filepath>
       <pattern datatype="string" operation="pattern match">^[^:]*:([^:]*):</pattern>
       <instance datatype="int" operation="greater than or equal">1</instance>
     </textfilecontent54_object>
   </objects>
   <states>
-    <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:2" version="1" comment="Single-user mode">
+    <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:756" version="1" comment="Single-user mode">
       <subexpression datatype="string">/sbin/sulogin</subexpression>
     </textfilecontent54_state>
-    <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:1" version="1" comment="Check /etc/passwd for hashes">
+    <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:22347" version="1" comment="Check /etc/passwd for hashes">
       <subexpression datatype="string">x</subexpression>
     </textfilecontent54_state>
   </states>
