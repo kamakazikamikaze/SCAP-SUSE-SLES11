@@ -5218,6 +5218,7 @@ Edit /etc/login.defs and set the value of the FAIL_DELAY variable to 4 or more.
 Edit /etc/pam.d/common-auth and add a pam_faildelay entry if one does not exist, such as:
 auth optional pam_faildelay.so</fixtext>
             <fix id="F-38275r1_fix" />
+			<!--
             <check system="C-42309r1_chk">
                 <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
                 <check-content>Check the value of the FAIL_DELAY variable and the ability to use it
@@ -5229,6 +5230,10 @@ If the value does not exist, or is less than 4, this is a finding.
 Check for the use of pam_faildelay.
 # grep pam_faildelay /etc/pam.d/common-auth*
 If the pam_faildelay.so module is not listed, this is a finding.</check-content>
+            </check>
+			-->
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:768" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>

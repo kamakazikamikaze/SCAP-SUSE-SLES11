@@ -8,6 +8,19 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:768" version="1" class="compliance">
+      <metadata>
+        <title>The delay between login prompts following a failed login attempt must be at least 4 seconds.</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>Enforcing a delay between successive failed login attempts increases protection against automated password guessing attacks.</description>
+      </metadata>
+      <criteria>
+        <criterion comment="/etc/login.defs should specify 4 or more seconds between attempts" test_ref="oval:gov.disa.suse:tst:7680001" />
+        <criterion comment="/etc/pam.d/common-auth-pc should enable login delays" test_ref="oval:gov.disa.suse:tst:7680002" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:766" version="1" class="compliance">
       <metadata>
         <title>The system must disable accounts after three consecutive unsuccessful login attempts.</title>
@@ -84,6 +97,13 @@
     </definition>
   </definitions>
   <tests>
+    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7680001" version="1" check="all" comment="delay login attempts by at least 4 seconds" check_existence="all_exist">
+      <object object_ref="oval:gov.disa.suse:obj:7680001" />
+	  <state state_ref="oval:gov.disa.suse:ste:7680001" />
+    </textfilecontent54_test>
+	<textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7680002" version="1" check="all" comment="delay login attempts by at least 4 seconds" check_existence="all_exist">
+      <object object_ref="oval:gov.disa.suse:obj:7680002" />
+    </textfilecontent54_test>
     <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7660001" version="1" check="all" comment="disable accounts after 3 unsuccessful login attempts" check_existence="at_least_one_exists">
       <object object_ref="oval:gov.disa.suse:obj:7660001" />
     </textfilecontent54_test>
@@ -116,6 +136,16 @@
     </textfilecontent54_test>
   </tests>
   <objects>
+    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7680001" version="1" comment="delay after failure to login should be 4 or more seconds">
+      <filepath datatype="string">/etc/login.defs</filepath>
+      <pattern datatype="string" operation="pattern match">^\s*FAIL_DELAY\s+([0-9]+)</pattern>
+      <instance datatype="int" operation="equals">1</instance>
+    </textfilecontent54_object>
+	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7680002" version="1" comment="delay after failure to login should be 4 or more seconds">
+      <filepath datatype="string">/etc/pam.d/common-auth-pc</filepath>
+      <pattern datatype="string" operation="pattern match">^\s*auth\s+optional\s+pam_faildelay.so</pattern>
+      <instance datatype="int" operation="equals">1</instance>
+    </textfilecontent54_object>
     <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7660001" version="1" comment="disable after 3 unsuccessful login attempts">
       <filepath datatype="string">/etc/pam.d/login</filepath>
       <pattern datatype="string" operation="pattern match">^auth\s+required\s+pam_tally.so\s+deny=3\s+onerr=fail</pattern>
@@ -160,6 +190,9 @@
     </textfilecontent54_object>
   </objects>
   <states>
+    <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7680001" version="1" comment="FAIL_DELAY should be 4 or more seconds">
+      <subexpression datatype="int" operation="greater than or equal">4</subexpression>
+    </textfilecontent54_state>
     <file_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:ste:7650002" version="1" comment="/var/log/btmp exists">
       <filepath datatype="string" operation="equals" entity_check="only one" var_check="all">/var/log/btmp</filepath>
     </file_state>
