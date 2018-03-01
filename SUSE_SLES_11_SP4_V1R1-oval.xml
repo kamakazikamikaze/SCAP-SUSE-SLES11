@@ -8,6 +8,19 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:765" version="1" class="compliance">
+      <metadata>
+        <title>Successful and unsuccessful logins and logouts must be logged</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>Monitoring and recording successful and unsuccessful logins assists in tracking unauthorized access to the system.  Without this logging, the ability to track unauthorized activity to specific user accounts may be diminished.</description>
+      </metadata>
+      <criteria operator="AND" negate="false" comment="">
+        <criterion comment="/var/log/wtmp must exist" test_ref="oval:gov.disa.suse:tst:7650001" negate="false" />
+		<criterion comment="/var/log/btmp must exist" test_ref="oval:gov.disa.suse:tst:7650002" negate="false" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:762" version="1" class="compliance">
       <metadata>
         <title>All accounts on the system must have unique User Identification Numbers (UIDs).</title>
@@ -72,6 +85,14 @@
     -->
   </definitions>
   <tests>
+    <file_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:tst:7650001" version="1" check="only one" comment="/var/log/wtmp must exist" check_existence="only_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:7650001" />
+      <state state_ref="oval:gov.disa.suse:ste:7650001" />
+    </file_test>
+    <file_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:tst:7650002" version="1" check="only one" comment="/var/log/btmp must exist" check_existence="only_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:7650002" />
+      <state state_ref="oval:gov.disa.suse:ste:7650002" />
+    </file_test>
     <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:762" version="1" check="all" comment="Check /etc/passwd for unique UIDs" check_existence="all_exist">
 	  <object object_ref="oval:gov.disa.suse:obj:7620001" />
 	  <state state_ref="oval:gov.disa.suse:ste:762" />
@@ -97,6 +118,12 @@
 	-->
   </tests>
   <objects>
+    <file_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:obj:7650002" version="1" comment="/var/log/btmp must exist">
+      <filepath datatype="string" operation="equals">/var/log/btmp</filepath>
+    </file_object>
+    <file_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:obj:7650001" version="1" comment="/var/log/wtmp must exist">
+      <filepath datatype="string" operation="equals">/var/log/wtmp</filepath>
+    </file_object>
     <variable_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7620001" version="1" comment="Variable count of ALL user UIDs from /etc/passwd">
 	  <var_ref>oval:gov.disa.suse:var:762</var_ref>
 	</variable_object>
@@ -132,6 +159,12 @@
 	-->
   </objects>
   <states>
+    <file_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:ste:7650002" version="1" comment="/var/log/btmp exists">
+      <filepath datatype="string" operation="equals" entity_check="only one" var_check="all">/var/log/btmp</filepath>
+    </file_state>
+    <file_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:ste:7650001" version="1" comment="/var/log/wtmp exists">
+      <filepath datatype="string" operation="equals" entity_check="only one" var_check="all">/var/log/wtmp</filepath>
+    </file_state>
     <variable_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:762" version="1" comment="State of UNIQUE UIDs in /etc/passwd">
 	  <value var_ref="oval:gov.disa.suse:var:7620001" datatype="int" operation="equals" var_check="at least one" />
 	</variable_state>
