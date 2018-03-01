@@ -8,6 +8,21 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:770" version="1" class="compliance">
+      <metadata>
+        <title>The system must not have accounts configured with blank or null passwords.</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>If an account is configured for password authentication but does not have an assigned password, it may be possible to log into the account without authentication.  If the root user is configured without a password, the entire system may be compromised.  For user accounts not using password authentication, the account must be configured with a password lock value instead of a blank or null value.</description>
+      </metadata>
+      <criteria comment="nullok should not exist anywhere">
+        <criterion comment="/etc/pam.d/common-auth-pc should not contain a nullok" test_ref="oval:gov.disa.suse:tst:7700001" />
+		<criterion comment="/etc/pam.d/common-account-pc should not contain a nullok" test_ref="oval:gov.disa.suse:tst:7700002" />
+		<criterion comment="/etc/pam.d/common-password-pc should not contain a nullok" test_ref="oval:gov.disa.suse:tst:7700003" />
+		<criterion comment="/etc/pam.d/common-session-pc should not contain a nullok" test_ref="oval:gov.disa.suse:tst:7700004" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:768" version="1" class="compliance">
       <metadata>
         <title>The delay between login prompts following a failed login attempt must be at least 4 seconds.</title>
@@ -97,6 +112,18 @@
     </definition>
   </definitions>
   <tests>
+    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7700001" version="1" check="all" comment="no nullok" check_existence="none_exist">
+      <object object_ref="oval:gov.disa.suse:obj:7700001" />
+    </textfilecontent54_test>
+	<textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7700002" version="1" check="all" comment="no nullok" check_existence="none_exist">
+      <object object_ref="oval:gov.disa.suse:obj:7700002" />
+    </textfilecontent54_test>
+	<textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7700003" version="1" check="all" comment="no nullok" check_existence="none_exist">
+      <object object_ref="oval:gov.disa.suse:obj:7700003" />
+    </textfilecontent54_test>
+	<textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7700004" version="1" check="all" comment="no nullok" check_existence="none_exist">
+      <object object_ref="oval:gov.disa.suse:obj:7700004" />
+    </textfilecontent54_test>
     <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7680001" version="1" check="all" comment="delay login attempts by at least 4 seconds" check_existence="all_exist">
       <object object_ref="oval:gov.disa.suse:obj:7680001" />
 	  <state state_ref="oval:gov.disa.suse:ste:7680001" />
@@ -136,6 +163,26 @@
     </textfilecontent54_test>
   </tests>
   <objects>
+    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" check="all" check_existence="none_exist" id="oval:gov.disa.suse:obj:7700001" version="1" comment="nullok should not be present">
+      <filepath datatype="string">/etc/pam.d/common-auth-pc</filepath>
+      <pattern datatype="string" operation="pattern match">^[^#]*nullok</pattern>
+      <instance datatype="int">1</instance>
+    </textfilecontent54_object>
+	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" check="all" check_existence="none_exist" id="oval:gov.disa.suse:obj:7700002" version="1" comment="nullok should not be present">
+      <filepath datatype="string">/etc/pam.d/common-account-pc</filepath>
+      <pattern datatype="string" operation="pattern match">^[^#]*nullok</pattern>
+      <instance datatype="int">1</instance>
+    </textfilecontent54_object>
+	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" check="all" check_existence="none_exist" id="oval:gov.disa.suse:obj:7700003" version="1" comment="nullok should not be present">
+      <filepath datatype="string">/etc/pam.d/common-password-pc</filepath>
+      <pattern datatype="string" operation="pattern match">^[^#]*nullok</pattern>
+      <instance datatype="int">1</instance>
+    </textfilecontent54_object>
+	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" check="all" check_existence="none_exist" id="oval:gov.disa.suse:obj:7700004" version="1" comment="nullok should not be present">
+      <filepath datatype="string">/etc/pam.d/common-session-pc</filepath>
+      <pattern datatype="string" operation="pattern match">^[^#]*nullok</pattern>
+      <instance datatype="int">1</instance>
+    </textfilecontent54_object>
     <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7680001" version="1" comment="delay after failure to login should be 4 or more seconds">
       <filepath datatype="string">/etc/login.defs</filepath>
       <pattern datatype="string" operation="pattern match">^\s*FAIL_DELAY\s+([0-9]+)</pattern>

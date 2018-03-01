@@ -5218,20 +5218,6 @@ Edit /etc/login.defs and set the value of the FAIL_DELAY variable to 4 or more.
 Edit /etc/pam.d/common-auth and add a pam_faildelay entry if one does not exist, such as:
 auth optional pam_faildelay.so</fixtext>
             <fix id="F-38275r1_fix" />
-			<!--
-            <check system="C-42309r1_chk">
-                <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
-                <check-content>Check the value of the FAIL_DELAY variable and the ability to use it
-
-Procedure:.
-# grep FAIL_DELAY /etc/login.defs 
-If the value does not exist, or is less than 4, this is a finding.
-
-Check for the use of pam_faildelay.
-# grep pam_faildelay /etc/pam.d/common-auth*
-If the pam_faildelay.so module is not listed, this is a finding.</check-content>
-            </check>
-			-->
 			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
                 <check-content-ref name="oval:gov.disa.suse:def:768" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
@@ -5283,6 +5269,7 @@ OR
 
 Use ‘pam-config’ to configure the affected module if it is supported by pam-config</fixtext>
             <fix id="F-38293r1_fix" />
+			<!--
             <check system="C-42322r1_chk">
                 <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
                 <check-content>Verify the system will not log in accounts with blank passwords.
@@ -5291,6 +5278,10 @@ Use ‘pam-config’ to configure the affected module if it is supported by pam-
 # grep nullok /etc/pam.d/common-password
 # grep nullok /etc/pam.d/common-session
 If an entry for nullok is found, this is a finding on Linux.</check-content>
+            </check>
+			-->
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:770" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>
