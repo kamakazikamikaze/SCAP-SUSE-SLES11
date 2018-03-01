@@ -5085,11 +5085,16 @@ If any duplicate account names are found, this is a finding.</check-content>
             <ident system="http://iase.disa.mil/cci">CCI-000764</ident>
             <fixtext fixref="F-38262r1_fix">Edit user accounts to provide unique UIDs for each account.</fixtext>
             <fix id="F-38262r1_fix" />
+			<!--
             <check system="C-42295r1_chk">
                 <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
                 <check-content>Perform the following to ensure there are no duplicate UIDs:
 # pwck -r
 If any duplicate UIDs are found, this is a finding.</check-content>
+            </check>
+		    -->
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:762" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>

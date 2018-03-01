@@ -8,6 +8,18 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:762" version="1" class="compliance">
+      <metadata>
+        <title>All accounts on the system must have unique User Identification Numbers (UIDs).</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>Accounts sharing a UID have full access to each others' files.  This has the same effect as sharing a login.  There is no way to assure identification, authentication, and accountability because the system sees them as the same user. If the duplicate UID is 0, this gives potential intruders another privileged account to attack.</description>
+      </metadata>
+	  <criteria>
+        <criterion comment="/etc/passwd should not contain duplicate account UIDs" test_ref="oval:gov.disa.suse:tst:762" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:761" version="1" class="compliance">
       <metadata>
         <title>All accounts on the system must have unique user or account names</title>
@@ -60,6 +72,10 @@
     -->
   </definitions>
   <tests>
+    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:762" version="1" check="all" comment="Check /etc/passwd for unique UIDs" check_existence="all_exist">
+	  <object object_ref="oval:gov.disa.suse:obj:7620001" />
+	  <state state_ref="oval:gov.disa.suse:ste:762" />
+	</textfilecontent54_test>
     <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:761" version="1" check="all" comment="Check /etc/passwd for unique users" check_existence="all_exist">
 	  <object object_ref="oval:gov.disa.suse:obj:7610001" />
 	  <state state_ref="oval:gov.disa.suse:ste:761" />
@@ -81,9 +97,22 @@
 	-->
   </tests>
   <objects>
+    <variable_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7620001" version="1" comment="Variable count of ALL user UIDs from /etc/passwd">
+	  <var_ref>oval:gov.disa.suse:var:762</var_ref>
+	</variable_object>
+    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:762" version="1" comment="Check /etc/passwd for duplicate UIDs">
+	  <filepath datatype="string" operation="equals">/etc/passwd</filepath>
+      <pattern datatype="string" operation="pattern match">^[^:]*:[^:]*:([^:]+):.*$</pattern>
+      <instance datatype="int" operation="greater than or equal">1</instance>
+    </textfilecontent54_object>
     <variable_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7610001" version="1" comment="Variable count of ALL users from /etc/passwd">
 	  <var_ref>oval:gov.disa.suse:var:761</var_ref>
 	</variable_object>
+	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:761" version="1" comment="Check /etc/passwd for duplicate users">
+      <filepath datatype="string" operation="equals">/etc/passwd</filepath>
+      <pattern datatype="string" operation="pattern match">^([^:]+):.*$</pattern>
+      <instance datatype="int" operation="greater than or equal">1</instance>
+    </textfilecontent54_object>
     <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:756" version="1" comment="Recovery mode must boot into Single-user mode">
       <filepath datatype="string">/etc/inittab</filepath>
       <pattern datatype="string" operation="pattern match">^~~:S:[^#\n]+:([^#\n]+)</pattern>
@@ -92,11 +121,6 @@
     <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:22347" version="1" comment="Check /etc/passwd for hashes">
       <filepath datatype="string">/etc/passwd</filepath>
       <pattern datatype="string" operation="pattern match">^[^:]*:([^:]*):</pattern>
-      <instance datatype="int" operation="greater than or equal">1</instance>
-    </textfilecontent54_object>
-	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:761" version="1" comment="Check /etc/passwd for duplicate users">
-      <filepath datatype="string" operation="equals">/etc/passwd</filepath>
-      <pattern datatype="string" operation="pattern match">^([^:]+):.*$</pattern>
       <instance datatype="int" operation="greater than or equal">1</instance>
     </textfilecontent54_object>
 	<!--
@@ -108,6 +132,9 @@
 	-->
   </objects>
   <states>
+    <variable_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:762" version="1" comment="State of UNIQUE UIDs in /etc/passwd">
+	  <value var_ref="oval:gov.disa.suse:var:7620001" datatype="int" operation="equals" var_check="at least one" />
+	</variable_state>
     <variable_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:761" version="1" comment="State of UNIQUE users in /etc/passwd">
 	  <value var_ref="oval:gov.disa.suse:var:7610001" datatype="int" operation="equals" var_check="at least one" />
 	</variable_state>
@@ -139,6 +166,18 @@ By using this IS (which includes any device attached to this IS), you consent to
 	-->
   </states>
   <variables>
+    <local_variable id="oval:gov.disa.suse:var:762" version="1" comment="/etc/passwd UID count" datatype="int">
+	  <count>
+	    <object_component item_field="subexpression" object_ref="oval:gov.disa.suse:obj:762" />
+	  </count>
+	</local_variable>
+    <local_variable id="oval:gov.disa.suse:var:7620001" version="1" comment="/etc/passwd unique UID count" datatype="int">
+	  <count>
+	    <unique>
+		  <object_component item_field="subexpression" object_ref="oval:gov.disa.suse:obj:762" />
+		</unique>
+	  </count>
+	</local_variable>
     <local_variable id="oval:gov.disa.suse:var:761" version="1" comment="/etc/passwd username count" datatype="int">
 	  <count>
 	    <object_component item_field="subexpression" object_ref="oval:gov.disa.suse:obj:761" />
