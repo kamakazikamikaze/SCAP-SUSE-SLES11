@@ -5052,7 +5052,8 @@ Verify with the SA or the IAO on documentation for users/administrators to log i
             <ident system="http://iase.disa.mil/cci">CCI-000764</ident>
             <fixtext fixref="F-38252r1_fix">Change user account names, or delete accounts, so each account has a unique name.</fixtext>
             <fix id="F-38252r1_fix" />
-            <check system="C-42294r1_chk">
+            <!--
+			<check system="C-42294r1_chk">
                 <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
                 <check-content>Check the system for duplicate account names.
 
@@ -5060,6 +5061,10 @@ Example:
 # pwck -r
 
 If any duplicate account names are found, this is a finding.</check-content>
+            </check>
+			-->
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:761" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>
@@ -5125,7 +5130,11 @@ OR
 
 I've read &amp; consent to terms in IS user agreem't.</fixtext>
             <fix id="F-38389r1_fix" />
-            <check system="C-42383r1_chk">
+			<!--
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:763" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
+			-->
+			<check system="C-42383r1_chk">
                 <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
                 <check-content>Access the system console and make a login attempt. Check for either of the following login banners based on the character limitations imposed by the system. An exact match is required. If one of these banners is not displayed, this is a finding.
 
