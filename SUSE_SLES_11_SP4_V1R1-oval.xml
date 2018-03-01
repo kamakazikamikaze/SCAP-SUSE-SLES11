@@ -8,6 +8,19 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:766" version="1" class="compliance">
+      <metadata>
+        <title>The system must disable accounts after three consecutive unsuccessful login attempts.</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>Disabling accounts after a limited number of unsuccessful login attempts improves protection against password guessing attacks.</description>
+      </metadata>
+      <criteria>
+        <criterion comment="/etc/pam.d/login must disable accounts after 3 unsuccessful login attempts" test_ref="oval:gov.disa.suse:tst:7660001" />
+        <criterion comment="/etc/pam.d/sshd must disable accounts after 3 unsuccessful login attempts" test_ref="oval:gov.disa.suse:tst:7660002" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:765" version="1" class="compliance">
       <metadata>
         <title>Successful and unsuccessful logins and logouts must be logged</title>
@@ -69,22 +82,14 @@
         <criterion comment="/etc/passwd does not contain hashes" test_ref="oval:gov.disa.suse:tst:22347" />
       </criteria>
     </definition>
-	<!--
-	<definition id="oval:gov.disa.suse:def:763" version="1" class="compliance">
-      <metadata>
-        <title>The Department of Defense (DoD) login banner must be displayed immediately prior to, or as part of, console login prompts.</title>
-        <affected family="unix">
-          <platform>SUSE Linux Enterprise Server 11</platform>
-        </affected>
-        <description>Failure to display the logon banner prior to a logon attempt will negate legal proceedings resulting from unauthorized access to system resources.</description>
-      </metadata>
-      <criteria>
-        <criterion comment="/etc/issue contains DoD Banner" test_ref="oval:gov.disa.suse:tst:763" />
-      </criteria>
-    </definition>
-    -->
   </definitions>
   <tests>
+    <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7660001" version="1" check="all" comment="disable accounts after 3 unsuccessful login attempts" check_existence="at_least_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:7660001" />
+    </textfilecontent54_test>
+	<textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7660002" version="1" check="all" comment="disable accounts after 3 unsuccessful login attempts" check_existence="at_least_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:7660002" />
+    </textfilecontent54_test>
     <file_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:tst:7650001" version="1" check="only one" comment="/var/log/wtmp must exist" check_existence="only_one_exists">
       <object object_ref="oval:gov.disa.suse:obj:7650001" />
       <state state_ref="oval:gov.disa.suse:ste:7650001" />
@@ -109,15 +114,18 @@
       <object object_ref="oval:gov.disa.suse:obj:22347" />
       <state state_ref="oval:gov.disa.suse:ste:22347" />
     </textfilecontent54_test>
-	<!--
-	<textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:763" version="1" check="all" comment="/etc/issue has DoD Banner" check_existence="at_least_one_exists" state_operator="OR">
-	  <object object_ref="oval:gov.disa.suse:obj:763" />
-	  <state state_ref="oval:gov.disa.suse:ste:763_1" />
-	  <state state_ref="oval:gov.disa.suse:ste:763_2" />
-	</textfilecontent54_test>
-	-->
   </tests>
   <objects>
+    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7660001" version="1" comment="disable after 3 unsuccessful login attempts">
+      <filepath datatype="string">/etc/pam.d/login</filepath>
+      <pattern datatype="string" operation="pattern match">^auth\s+required\s+pam_tally.so\s+deny=3\s+onerr=fail</pattern>
+      <instance datatype="int" operation="equals">1</instance>
+    </textfilecontent54_object>
+	<textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:7660002" version="1" comment="disable after 3 unsuccessful login attempts">
+      <filepath datatype="string">/etc/pam.d/sshd</filepath>
+      <pattern datatype="string" operation="pattern match">^auth\s+required\s+pam_tally.so\s+deny=3\s+onerr=fail</pattern>
+      <instance datatype="int" operation="equals">1</instance>
+    </textfilecontent54_object>
     <file_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:obj:7650002" version="1" comment="/var/log/btmp must exist">
       <filepath datatype="string" operation="equals">/var/log/btmp</filepath>
     </file_object>
@@ -150,13 +158,6 @@
       <pattern datatype="string" operation="pattern match">^[^:]*:([^:]*):</pattern>
       <instance datatype="int" operation="greater than or equal">1</instance>
     </textfilecontent54_object>
-	<!--
-    <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:763" version="1" comment="Check /etc/issue for DoD Banner">
-      <filepath datatype="string">/etc/issue</filepath>
-	  <pattern datatype="string" operation="pattern match">^\s*(.*)</pattern>
-	  <instance datatype="int" operation="equals">1</instance>
-    </textfilecontent54_object>
-	-->
   </objects>
   <states>
     <file_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:ste:7650002" version="1" comment="/var/log/btmp exists">
@@ -177,26 +178,6 @@
     <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:22347" version="1" comment="Check /etc/passwd for hashes">
       <subexpression datatype="string">x</subexpression>
     </textfilecontent54_state>
-	<!--
-	<textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.dis.suse:ste:763_1" version="1" comment="DoD Banner 1">
-	  <subexpression datatype="string">You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.
-
-By using this IS (which includes any device attached to this IS), you consent to the following conditions:
-
--The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.
-
--At any time, the USG may inspect and seize data stored on this IS.
-
--Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.
-
--This IS includes security measures (e.g., authentication and access controls) to protect USG interests- -not for your personal benefit or privacy.
-
--Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.</subexpression>
-    </textfilecontent54_state>
-	<textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:763_2" version="1" comment="DoD Banner 2">
-      <subexpression datatype="string">I've read &amp; consent to terms in IS user agreem't.</subexpression>
-    </textfilecontent54_state>
-	-->
   </states>
   <variables>
     <local_variable id="oval:gov.disa.suse:var:762" version="1" comment="/etc/passwd UID count" datatype="int">
