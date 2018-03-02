@@ -5269,17 +5269,6 @@ OR
 
 Use ‘pam-config’ to configure the affected module if it is supported by pam-config</fixtext>
             <fix id="F-38293r1_fix" />
-			<!--
-            <check system="C-42322r1_chk">
-                <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
-                <check-content>Verify the system will not log in accounts with blank passwords.
-# grep nullok /etc/pam.d/common-auth
-# grep nullok /etc/pam.d/common-account
-# grep nullok /etc/pam.d/common-password
-# grep nullok /etc/pam.d/common-session
-If an entry for nullok is found, this is a finding on Linux.</check-content>
-            </check>
-			-->
 			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
                 <check-content-ref name="oval:gov.disa.suse:def:770" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
@@ -5303,14 +5292,8 @@ If an entry for nullok is found, this is a finding on Linux.</check-content>
             <ident system="http://iase.disa.mil/cci">CCI-000366</ident>
             <fixtext fixref="F-38332r1_fix">Remove or change the UID of accounts other than root that have UID 0.</fixtext>
             <fix id="F-38332r1_fix" />
-            <check system="C-42340r1_chk">
-                <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
-                <check-content>Check the system for duplicate UID 0 assignments by listing all accounts assigned UID 0.
-
-Procedure:
-# cat /etc/passwd | awk -F":" '{print$1":"$3":"}' | grep ":0:"
-
-If any accounts other than root are assigned UID 0, this is a finding.</check-content>
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:773" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>

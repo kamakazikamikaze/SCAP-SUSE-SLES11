@@ -8,6 +8,18 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:773" version="1" class="compliance">
+      <metadata>
+        <title>The root account must be the only account having a UID of 0.</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>If an account has a UID of 0, it has root authority.  Multiple accounts with a UID of 0 afford more opportunity for potential intruders to guess a password for a privileged account.</description>
+      </metadata>
+      <criteria>
+        <criterion comment="Only root should have a UID of 0" test_ref="oval:gov.disa.suse:tst:773" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:770" version="1" class="compliance">
       <metadata>
         <title>The system must not have accounts configured with blank or null passwords.</title>
@@ -112,6 +124,10 @@
     </definition>
   </definitions>
   <tests>
+    <password_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:tst:773" version="1" check="all" check_existence="at_least_one_exists">
+      <object object_ref="oval:gov.disa.suse:obj:773" />
+      <state state_ref="oval:gov.disa.suse:ste:773" />
+    </password_test>
     <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7700001" version="1" check="all" comment="no nullok" check_existence="none_exist">
       <object object_ref="oval:gov.disa.suse:obj:7700001" />
     </textfilecontent54_test>
@@ -163,6 +179,9 @@
     </textfilecontent54_test>
   </tests>
   <objects>
+    <password_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:obj:773" version="1">
+      <username datatype="string" operation="equals">root</username>
+    </password_object>
     <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" check="all" check_existence="none_exist" id="oval:gov.disa.suse:obj:7700001" version="1" comment="nullok should not be present">
       <filepath datatype="string">/etc/pam.d/common-auth-pc</filepath>
       <pattern datatype="string" operation="pattern match">^[^#]*nullok</pattern>
@@ -237,6 +256,10 @@
     </textfilecontent54_object>
   </objects>
   <states>
+    <password_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:ste:773" version="1">
+      <username datatype="string" operation="equals" entity_check="all" var_check="all">root</username>
+      <user_id datatype="int" operation="equals" entity_check="all" var_check="all">0</user_id>
+    </password_state>
     <textfilecontent54_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7680001" version="1" comment="FAIL_DELAY should be 4 or more seconds">
       <subexpression datatype="int" operation="greater than or equal">4</subexpression>
     </textfilecontent54_state>
