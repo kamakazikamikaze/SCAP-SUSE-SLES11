@@ -5326,14 +5326,8 @@ _ OR
 
 Use the YaST ‘Security and Users’ &gt; ‘User and Group Management’ module to update the home directory for root.</fixtext>
             <fix id="F-38333r2_fix" />
-            <check system="C-42341r1_chk">
-                <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
-                <check-content>Determine if root is assigned a home directory other than / by listing its home directory.
-
-Procedure:
-# grep "^root" /etc/passwd | awk -F":" '{print $6}'
-
-If the root user home directory is /, this is a finding.</check-content>
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:774" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>
