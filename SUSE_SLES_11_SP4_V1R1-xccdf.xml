@@ -5372,16 +5372,8 @@ Use the YaST ‘Security and Users’ &gt; ‘User and Group Management’ modul
             <ident system="http://iase.disa.mil/cci">CCI-000366</ident>
             <fixtext fixref="F-38336r1_fix">Edit the root user's local initialization files ~/.profile,~/.bashrc (assuming root shell is bash). Change any found PATH variable settings to the vendor's default path for the root user. Remove any empty path entries or references to relative paths.</fixtext>
             <fix id="F-38336r1_fix" />
-            <check system="C-42344r1_chk">
-                <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
-                <check-content>To view the root user's PATH, log in as the root user, and execute:
-# env | grep PATH
-OR
-
-# echo $PATH
-
-
-This variable is formatted as a colon-separated list of directories. If there is an empty entry, such as a leading or trailing colon, or two consecutive colons, this is a finding. If an entry starts with a character other than a slash (/), this is a finding. If directories beyond those in the vendor's default root path are present. This is a finding.</check-content>
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:776" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>

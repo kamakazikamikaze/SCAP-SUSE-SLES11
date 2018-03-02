@@ -8,6 +8,23 @@
   </generator>
   <!--generated.oval.base.identifier=gov.disa.suse-->
   <definitions>
+    <definition id="oval:gov.disa.suse:def:776" version="1" class="compliance">
+      <metadata>
+        <title>The root accounts executable search path must be the vendor default and must contain only absolute paths.</title>
+        <affected family="unix">
+          <platform>SUSE Linux Enterprise Server 11</platform>
+        </affected>
+        <description>The executable search path (typically the PATH environment variable) contains a list of directories for the shell to search to find executables.  If this path includes the current working directory or other relative paths, executables in these directories may be executed instead of system commands.  This variable is formatted as a colon-separated list of directories.  If there is an empty entry, such as a leading or trailing colon or two consecutive colons, this is interpreted as the current working directory.  Entries starting with a slash (/) are absolute paths.</description>
+      </metadata>
+      <criteria operator="AND">
+        <criterion comment="environment variable PATH starts with : or ." test_ref="oval:gov.disa.suse:tst:7760001" />
+        <criterion comment="environment variable PATH contains : twice in a row" test_ref="oval:gov.disa.suse:tst:7760002" />
+        <criterion comment="environment variable PATH contains . twice in a row" test_ref="oval:gov.disa.suse:tst:7760003" />
+        <criterion comment="environment variable PATH ends with : or ." test_ref="oval:gov.disa.suse:tst:7760004" />
+        <criterion comment="environment variable PATH doesn't begin with a /" test_ref="oval:gov.disa.suse:tst:7760005" />
+        <criterion comment="environment variable PATH doesn't contain relative paths" test_ref="oval:gov.disa.suse:tst:7760006" />
+      </criteria>
+    </definition>
     <definition id="oval:gov.disa.suse:def:775" version="1" class="compliance">
       <metadata>
         <title>The root accounts home directory (other than /) must have mode 0700.</title>
@@ -148,6 +165,30 @@
     </definition>
   </definitions>
   <tests>
+    <environmentvariable58_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7760001" version="1" check="none satisfy" comment="environment variable PATH starts with : or .">
+	  <object object_ref="oval:gov.disa.suse:obj:776" />
+	  <state state_ref="oval:gov.disa.suse:ste:7760001" />
+	</environmentvariable58_test>
+	<environmentvariable58_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7760002" version="1" check="none satisfy" comment="environment variable PATH doesn't contain : twice in a row">
+	  <object object_ref="oval:gov.disa.suse:obj:776" />
+	  <state state_ref="oval:gov.disa.suse:ste:7760002" />
+	</environmentvariable58_test>
+	<environmentvariable58_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7760003" version="1" check="none satisfy" comment="environment variable PATH doesn't contain . twice in a row">
+	  <object object_ref="oval:gov.disa.suse:obj:776" />
+	  <state state_ref="oval:gov.disa.suse:ste:7760003" />
+	</environmentvariable58_test>
+	<environmentvariable58_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7760004" version="1" check="none satisfy" comment="environment variable PATH ends with : or .">
+	  <object object_ref="oval:gov.disa.suse:obj:776" />
+	  <state state_ref="oval:gov.disa.suse:ste:7760004" />
+	</environmentvariable58_test>
+	<environmentvariable58_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7760005" version="1" check="none satisfy" comment="environment variable PATH starts with an absolute path /">
+	  <object object_ref="oval:gov.disa.suse:obj:776" />
+	  <state state_ref="oval:gov.disa.suse:ste:7760005" />
+	</environmentvariable58_test>
+	<environmentvariable58_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:tst:7760006" version="1" check="none satisfy" comment="environment variable PATH contains relative paths">
+	  <object object_ref="oval:gov.disa.suse:obj:776" />
+	  <state state_ref="oval:gov.disa.suse:ste:7760006" />
+	</environmentvariable58_test>
     <file_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:tst:775" version="1" check="only one" comment="root home permissions must match 0700" check_existence="all_exist">
       <object object_ref="oval:gov.disa.suse:obj:775" />
       <state state_ref="oval:gov.disa.suse:ste:775" />
@@ -211,6 +252,10 @@
     </textfilecontent54_test>
   </tests>
   <objects>
+    <environmentvariable58_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:obj:776" version="1">
+	  <pid xsi:nil="true" />
+	  <name>PATH</name>
+	</environmentvariable58_object>
     <file_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:obj:775" version="1" comment="root home permissions">
       <!-- <path datatype="string">/root</path> -->
 	  <path datatype="string" operation="equals" var_ref="oval:gov.disa.suse:var:775" var_check="all" />
@@ -293,6 +338,24 @@
     </textfilecontent54_object>
   </objects>
   <states>
+    <environmentvariable58_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7760001" version="1" comment="starts with colon or period">
+	  <value operation="pattern match">^[:\.]</value>
+	</environmentvariable58_state>
+	<environmentvariable58_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7760002" version="1" comment="colon twice in a row">
+	  <value operation="pattern match">::</value>
+	</environmentvariable58_state>
+	<environmentvariable58_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7760003" version="1" comment="period twice in a row">
+	  <value operation="pattern match">\.\.</value>
+	</environmentvariable58_state>
+	<environmentvariable58_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7760004" version="1" comment="ends with colon or period">
+	  <value operation="pattern match">[:\.]$</value>
+	</environmentvariable58_state>
+	<environmentvariable58_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7760005" version="1" comment="begins with a slash">
+	  <value operation="pattern match">^[^/]</value>
+	</environmentvariable58_state>
+	<environmentvariable58_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:gov.disa.suse:ste:7760006" version="1" comment="elements begin with a slash">
+	  <value operation="pattern match">[^\\]:[^/]</value>
+	</environmentvariable58_state>
     <file_state xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" id="oval:gov.disa.suse:ste:775" version="1" comment="root home permissions are 07000" operator="AND">
       <suid datatype="boolean">false</suid>
 	  <sgid datatype="boolean">false</sgid>
