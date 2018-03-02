@@ -5349,15 +5349,8 @@ Use the YaST ‘Security and Users’ &gt; ‘User and Group Management’ modul
             <fixtext fixref="F-38334r1_fix">The root home directory will have permissions of 0700. Do not change the protections of the / directory. Use the following command to change protections for the root home directory: 
 # chmod 0700 /rootdir.</fixtext>
             <fix id="F-38334r1_fix" />
-            <check system="C-42342r1_chk">
-                <check-content-ref name="M" href="DPMS_XCCDF_Benchmark_SuSe_zLinux.xml" />
-                <check-content>Check the mode of the root home directory.
-
-Procedure:
-# grep "^root" /etc/passwd | awk -F":" '{print $6}'
-# ls -ld &lt;root home directory&gt;
-
-If the mode of the directory is not equal to 0700, this is a finding. If the home directory is /, this check will be marked "Not Applicable".</check-content>
+			<check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+                <check-content-ref name="oval:gov.disa.suse:def:775" href="SUSE_SLES_11_SP4_V1R1-oval.xml" />
             </check>
         </Rule>
     </Group>
