@@ -42,7 +42,7 @@
       <ind:family>unix</ind:family>
     </ind:family_state>
     <linux:rpminfo_state xmlns:linux="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" id="oval:gov.disa.suse:ste:2" version="1">
-      <linux:version operation="pattern match">^11\.4$</linux:version>
+      <linux:version operation="pattern match">^11\.[0-4]$</linux:version>
     </linux:rpminfo_state>
   </states>
   <!--generated.oval.base.identifier=gov.disa.suse-->
